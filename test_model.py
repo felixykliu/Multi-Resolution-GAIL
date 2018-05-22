@@ -96,15 +96,21 @@ for i_iter in range(args.max_iter_num):
         test_sample(policy_net, test_data, use_gpu, i_iter, draw=True)
 
     update = 'append' if i_iter > 0 else None
-    win_path_length = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['ave_length']]), \
-        np.array([mod_stats['ave_length']]))), win = win_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
-    win_out_of_bound = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), \
-        np.array([mod_stats['ave_out_of_bound']]))), win = win_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
-    win_step_change = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), \
-        np.array([mod_stats['ave_change_step_size']]))), win = win_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
-    win_ave_player_dis = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['ave_player_distance']]), \
-        np.array([mod_stats['ave_player_distance']]))), win = win_ave_player_dis, update = update, opts=dict(legend=['expert', 'model'], title="average player distance"))
-    win_diff_max_min = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['diff_max_min']]), \
-        np.array([mod_stats['diff_max_min']]))), win = win_diff_max_min, update = update, opts=dict(legend=['expert', 'model'], title="average max and min path diff"))
-    win_ave_angle = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_stats['ave_angle']]), \
-        np.array([mod_stats['ave_angle']]))), win = win_ave_angle, update = update, opts=dict(legend=['expert', 'model'], title="average rotation angle"))
+    win_path_length = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['ave_length']]), np.array([mod_stats['ave_length']]))), \
+        win = win_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
+    win_out_of_bound = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), np.array([mod_stats['ave_out_of_bound']]))), \
+        win = win_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
+    win_step_change = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), np.array([mod_stats['ave_change_step_size']]))), \
+        win = win_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
+    win_ave_player_dis = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['ave_player_distance']]), np.array([mod_stats['ave_player_distance']]))), \
+        win = win_ave_player_dis, update = update, opts=dict(legend=['expert', 'model'], title="average player distance"))
+    win_diff_max_min = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['diff_max_min']]), np.array([mod_stats['diff_max_min']]))), \
+        win = win_diff_max_min, update = update, opts=dict(legend=['expert', 'model'], title="average max and min path diff"))
+    win_ave_angle = vis.line(X = np.array([i_iter]), \
+        Y = np.column_stack((np.array([exp_stats['ave_angle']]), np.array([mod_stats['ave_angle']]))), \
+        win = win_ave_angle, update = update, opts=dict(legend=['expert', 'model'], title="average rotation angle"))

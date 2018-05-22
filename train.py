@@ -153,12 +153,15 @@ for e in range(pretrain_epochs):
     _, _, _, _, _, _, mod_stats, exp_stats = \
             collect_samples(policy_net, test_data, use_gpu, e, args.subsample, name='pretrain', draw=True)
     update = 'append' if epoch > 1 else None
-    win_pre_path_length = vis.line(X = np.array([epoch]), Y = np.column_stack((np.array([exp_stats['ave_length']]), \
-        np.array([mod_stats['ave_length']]))), win = win_pre_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
-    win_pre_out_of_bound = vis.line(X = np.array([epoch]), Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), \
-        np.array([mod_stats['ave_out_of_bound']]))), win = win_pre_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
-    win_pre_step_change = vis.line(X = np.array([epoch]), Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), \
-        np.array([mod_stats['ave_change_step_size']]))), win = win_pre_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
+    win_pre_path_length = vis.line(X = np.array([epoch]), \
+        Y = np.column_stack((np.array([exp_stats['ave_length']]), np.array([mod_stats['ave_length']]))), \
+        win = win_pre_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
+    win_pre_out_of_bound = vis.line(X = np.array([epoch]), \
+        Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), np.array([mod_stats['ave_out_of_bound']]))), \
+        win = win_pre_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
+    win_pre_step_change = vis.line(X = np.array([epoch]), \
+        Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), np.array([mod_stats['ave_change_step_size']]))), \
+        win = win_pre_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
 
     # control learning rate
     if epoch == pretrain_epochs * 2 // 3:
@@ -184,8 +187,9 @@ for e in range(pretrain_epochs):
     total_test_loss = test_loss
     
     update = 'append' if epoch > 1 else None
-    win_pre_policy = vis.line(X = np.array([epoch]), Y = np.column_stack((np.array([test_loss]), np.array([train_loss]))), win = win_pre_policy, update = update, \
-        opts=dict(legend=['out-of-sample loss', 'in-sample loss'], title="pretrain policy training curve"))
+    win_pre_policy = vis.line(X = np.array([epoch]), Y = np.column_stack((np.array([test_loss]), np.array([train_loss]))), \
+        win = win_pre_policy, update = update, opts=dict(legend=['out-of-sample loss', 'in-sample loss'], \
+                                                         title="pretrain policy training curve"))
 
     # best model on test set
     if best_test_loss == 0 or total_test_loss < best_test_loss:    
@@ -248,8 +252,8 @@ for i in range(args.pretrain_disc_iter):
         collect_samples(policy_net, train_data, use_gpu, i, args.subsample, name="pretraining", draw=False)
     model_states = model_states_var.data
     model_actions = model_actions_var.data
-    pre_mod_p, pre_exp_p = update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, exp_actions, model_states, model_actions, \
-        i, dis_times=3.0, use_gpu=use_gpu, train=True)
+    pre_mod_p, pre_exp_p = update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, \
+        exp_actions, model_states, model_actions, i, dis_times=3.0, use_gpu=use_gpu, train=True)
 
     print(i, 'exp: ', pre_exp_p, 'mod: ', pre_mod_p)
 
@@ -280,24 +284,30 @@ for i_iter in range(args.max_iter_num):
             collect_samples(policy_net, test_data, use_gpu, i_iter, args.subsample, draw=True)
     
         update = 'append' if i_iter > 0 else None
-        win_path_length = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['ave_length']]), \
-            np.array([mod_stats['ave_length']]))), win = win_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
-        win_out_of_bound = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), \
-            np.array([mod_stats['ave_out_of_bound']]))), win = win_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
-        win_step_change = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), \
-            np.array([mod_stats['ave_change_step_size']]))), win = win_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
-        win_ave_player_dis = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['ave_player_distance']]), \
-            np.array([mod_stats['ave_player_distance']]))), win = win_ave_player_dis, update = update, opts=dict(legend=['expert', 'model'], title="average player distance"))
-        win_diff_max_min = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['diff_max_min']]), \
-            np.array([mod_stats['diff_max_min']]))), win = win_diff_max_min, update = update, opts=dict(legend=['expert', 'model'], title="average max and min path diff"))
-        win_ave_angle = vis.line(X = np.array([i_iter // args.draw_interval]), Y = np.column_stack((np.array([exp_stats['ave_angle']]), \
-            np.array([mod_stats['ave_angle']]))), win = win_ave_angle, update = update, opts=dict(legend=['expert', 'model'], title="average rotation angle"))
+        win_path_length = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['ave_length']]), np.array([mod_stats['ave_length']]))), \
+            win = win_path_length, update = update, opts=dict(legend=['expert', 'model'], title="average path length"))
+        win_out_of_bound = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['ave_out_of_bound']]), np.array([mod_stats['ave_out_of_bound']]))), \
+            win = win_out_of_bound, update = update, opts=dict(legend=['expert', 'model'], title="average out of bound rate"))
+        win_step_change = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['ave_change_step_size']]), np.array([mod_stats['ave_change_step_size']]))), \
+            win = win_step_change, update = update, opts=dict(legend=['expert', 'model'], title="average step size change"))
+        win_ave_player_dis = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['ave_player_distance']]), np.array([mod_stats['ave_player_distance']]))), \
+            win = win_ave_player_dis, update = update, opts=dict(legend=['expert', 'model'], title="average player distance"))
+        win_diff_max_min = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['diff_max_min']]), np.array([mod_stats['diff_max_min']]))), \
+            win = win_diff_max_min, update = update, opts=dict(legend=['expert', 'model'], title="average max and min path diff"))
+        win_ave_angle = vis.line(X = np.array([i_iter // args.draw_interval]), \
+            Y = np.column_stack((np.array([exp_stats['ave_angle']]), np.array([mod_stats['ave_angle']]))), \
+            win = win_ave_angle, update = update, opts=dict(legend=['expert', 'model'], title="average rotation angle"))
     ts1 = time.time()
 
     t0 = time.time()
     # update discriminator
-    mod_p_epoch, exp_p_epoch = update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, exp_actions, model_states, model_actions, \
-        i_iter, dis_times=3.0, use_gpu=use_gpu, train=train_discrim)
+    mod_p_epoch, exp_p_epoch = update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, exp_actions, \
+                                              model_states, model_actions, i_iter, dis_times=3.0, use_gpu=use_gpu, train=train_discrim)
     exp_p.append(exp_p_epoch)
     mod_p.append(mod_p_epoch)
     
@@ -313,8 +323,10 @@ for i_iter in range(args.max_iter_num):
         update = 'append'
         if win_exp_p is None:
             update = None
-        win_exp_p = vis.line(X = np.array([i_iter]), Y = np.column_stack((np.array([exp_p[-1]]), np.array([mod_p[-1]]))), win = win_exp_p, \
-                          update = update, opts=dict(legend=['expert_prob', 'model_prob'], title="training curve probs"))
+        win_exp_p = vis.line(X = np.array([i_iter]), \
+                             Y = np.column_stack((np.array([exp_p[-1]]), np.array([mod_p[-1]]))), \
+                             win = win_exp_p, update = update, \
+                             opts=dict(legend=['expert_prob', 'model_prob'], title="training curve probs"))
 
     if args.save_model_interval > 0 and (i_iter) % args.save_model_interval == 0:
         torch.save(policy_net.state_dict(), save_path+'model/policy_step'+str(args.subsample)+'_training.pth')

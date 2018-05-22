@@ -46,7 +46,8 @@ def zeros(*shape):
     return torch.zeros(*shape).cuda() if use_gpu else torch.zeros(*shape)
 
 # train and pretrain discriminator
-def update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, exp_actions, states, actions, i_iter, dis_times, use_gpu, train = True):
+def update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states, exp_actions, \
+                   states, actions, i_iter, dis_times, use_gpu, train = True):
     if use_gpu:
         exp_states, exp_actions, states, actions = exp_states.cuda(), exp_actions.cuda(), states.cuda(), actions.cuda()
 
@@ -71,7 +72,8 @@ def update_discrim(discrim_net, optimizer_discrim, discrim_criterion, exp_states
         return g_o_ave / dis_times, e_o_ave / dis_times
 
 # train policy network
-def update_policy(policy_net, optimizer_policy, discrim_net, discrim_criterion, states_var, actions_var, i_iter, use_gpu):
+def update_policy(policy_net, optimizer_policy, discrim_net, discrim_criterion, \
+                  states_var, actions_var, i_iter, use_gpu):
     optimizer_policy.zero_grad()
     g_o = discrim_net(states_var, actions_var)
     policy_loss = discrim_criterion(g_o, Variable(ones((g_o.shape[0], g_o.shape[1], 1))))
@@ -156,7 +158,8 @@ def ave_player_distance(states):
     ret = np.zeros(states.shape)
     for i in range(5):
         for j in range(i+1, 5):
-            ret[:, :, count] = np.sqrt(np.square(states[:, :, 2 * i] - states[:, :, 2 * j]) + np.square(states[:, :, 2 * i + 1] - states[:, :, 2 * j + 1]))
+            ret[:, :, count] = np.sqrt(np.square(states[:, :, 2 * i] - states[:, :, 2 * j]) + \
+                                       np.square(states[:, :, 2 * i + 1] - states[:, :, 2 * j + 1]))
             count += 1
     return ret
 
@@ -213,7 +216,8 @@ def draw_data(model_states, name, i_iter, burn_in=0):
     draw_data = model_states.cpu().numpy()[:, 0, :] 
     draw_data = unnormalize(draw_data)
     colormap = ['b', 'r', 'g', 'm', 'y', 'c']
-    plot_sequence(draw_data, macro_goals=None, colormap=colormap[:5], save_name="imgs/{}_{}_offense".format(name, i_iter), burn_in=burn_in)
+    plot_sequence(draw_data, macro_goals=None, colormap=colormap[:5], \
+                  save_name="imgs/{}_{}_offense".format(name, i_iter), burn_in=burn_in)
 
     return stats
 
