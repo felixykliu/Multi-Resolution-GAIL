@@ -16,7 +16,7 @@ For basketball game trajectory prediction, it is a five-level model.
 
 `2nd level` predicts every 2 steps.
 
-`1st level` predict every step.
+`1st level` predicts every step.
 
 ## Usage:
 
