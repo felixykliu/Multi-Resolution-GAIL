@@ -227,7 +227,7 @@ class PROG_RNN(nn.Module):
             dec_t = self.dec16(h16[-1])
             dec_mean_t = self.dec16_mean(dec_t)
             dec_std_t = self.dec16_std(dec_t)
-            state_t = sample_gauss(dec_mean_t, dec_std_t)
+            state_t = reparam_sample_gauss(dec_mean_t, dec_std_t)
             ret.append(state_t)
         
         return torch.stack(ret, 0)
@@ -254,7 +254,7 @@ class PROG_RNN(nn.Module):
             dec_t = self.dec8(torch.cat([h8[-1], macro_t], 1))
             dec_mean_t = self.dec8_mean(dec_t)
             dec_std_t = self.dec8_std(dec_t)
-            state_t = sample_gauss(dec_mean_t, dec_std_t)
+            state_t = reparam_sample_gauss(dec_mean_t, dec_std_t)
             
             ret.append(state_t)
             ret.append(macro_t)
@@ -285,7 +285,7 @@ class PROG_RNN(nn.Module):
             dec_t = self.dec4(torch.cat([h4[-1], macro_t], 1))
             dec_mean_t = self.dec4_mean(dec_t)
             dec_std_t = self.dec4_std(dec_t)
-            state_t = sample_gauss(dec_mean_t, dec_std_t)
+            state_t = reparam_sample_gauss(dec_mean_t, dec_std_t)
             
             ret.append(state_t)
             ret.append(macro_t)
@@ -316,7 +316,7 @@ class PROG_RNN(nn.Module):
             dec_t = self.dec2(torch.cat([h2[-1], macro_t], 1))
             dec_mean_t = self.dec2_mean(dec_t)
             dec_std_t = self.dec2_std(dec_t)
-            state_t = sample_gauss(dec_mean_t, dec_std_t)
+            state_t = reparam_sample_gauss(dec_mean_t, dec_std_t)
             
             ret.append(state_t)
             ret.append(macro_t)
@@ -347,7 +347,7 @@ class PROG_RNN(nn.Module):
             dec_t = self.dec1(torch.cat([h1[-1], macro_t], 1))
             dec_mean_t = self.dec1_mean(dec_t)
             dec_std_t = self.dec1_std(dec_t)
-            state_t = sample_gauss(dec_mean_t, dec_std_t)
+            state_t = reparam_sample_gauss(dec_mean_t, dec_std_t)
             
             ret.append(state_t)
             ret.append(macro_t)

@@ -40,7 +40,7 @@ def sample_gumbel(logits, tau=1, eps=1e-20):
     return F.softmax(y)
 
 
-def sample_gauss(mean, std):
+def reparam_sample_gauss(mean, std):
     eps = torch.DoubleTensor(std.size()).normal_()
     eps = Variable(eps)
     if mean.is_cuda:
