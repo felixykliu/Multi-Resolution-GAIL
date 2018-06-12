@@ -15,8 +15,8 @@ python train.py \
 --pre_start_lr 1e-3 \
 --pre_min_lr 1e-4 \
 --batch_size 64 \
---pretrain 0 \
---subsample 1 \
+--pretrain 50 \
+--subsample 16 \
 --discrim_rnn_dim 128 \
 --discrim_layers 1 \
 --policy_learning_rate 1e-6 \
@@ -25,5 +25,4 @@ python train.py \
 --max_iter_num 60000 \
 --draw_interval 100 \
 --cuda \
---cont \
---seed 666
+--cont

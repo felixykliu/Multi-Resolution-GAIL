@@ -209,8 +209,8 @@ printlog('End of Pretrain, Best Test Loss: {:.4f}'.format(best_test_loss))
 ############################################################################
 
 # load the best pretrained policy
-policy_state_dict = torch.load(save_path+'model/policy_step'+str(args.subsample)+'_training.pth')
-#policy_state_dict = torch.load(save_path+'model/policy_step'+str(args.subsample)+'_state_dict_best_pretrain.pth')
+#policy_state_dict = torch.load(save_path+'model/policy_step'+str(args.subsample)+'_training.pth')
+policy_state_dict = torch.load(save_path+'model/policy_step'+str(args.subsample)+'_state_dict_best_pretrain.pth')
 policy_net.load_state_dict(policy_state_dict)
 
 if args.pretrained_discrim:
